@@ -1,0 +1,169 @@
+<!doctype html>
+<html {{#unless title}} class="page-app" {{/unless}}>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>
+    {{#if title}}
+      {{ title }} &#8212; Business Card Maker
+    {{else}}
+      Free business cards in seconds, easy to customize using high quality professional designs &#8212; Business Card Maker
+    {{/if}}
+  </title>
+  <meta name="description" content="Easily create your own business cards in seconds, using high quality professional designs, then download them for free as PDF or JPG.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2854a1">
+  <link rel="canonical" href="https://www.bizcardmaker.com/{{relative 'public/' page.dest}}">
+
+  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+
+  <!-- build:css({.tmp,app}) /styles/website.css -->
+  <link rel="stylesheet" href="/bower_components/foundation-sites/dist/foundation.min.css">
+  <link rel="stylesheet" href="/bower_components/angular-meditor/dist/meditor.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <!-- endbuild -->
+
+  <!-- Google / Search Engine Tags -->
+  <meta itemprop="name" content="Free business cards in seconds, easy to customize using high quality professional designs — Business Card Maker">
+  <meta itemprop="description" content="Easily create your own business cards in seconds, using high quality professional designs, then download them for free as PDF or JPG.">
+  <meta itemprop="image" content="https://www.bizcardmaker.com/images/banner-social.png">
+
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="https://www.bizcardmaker.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free business cards in seconds">
+  <meta property="og:description" content="Easily create your own business cards in seconds, using high quality professional designs, then download them for free as PDF or JPG.">
+  <meta property="og:image" content="https://www.bizcardmaker.com/images/banner-social.png">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free business cards in seconds">
+  <meta name="twitter:description" content="Easily create your own business cards in seconds, using high quality professional designs, then download them for free as PDF or JPG.">
+  <meta name="twitter:image" content="https://www.bizcardmaker.com/images/banner-social.png">
+</head>
+<body>
+
+  <!--[if lt IE 9]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <nav class="top-bar">
+
+    <div class="top-bar-title">
+      <h1>
+        <a href="/">
+          <img src="/images/bizcardmaker-logo.png" alt="Business Card Maker Logo">
+
+          Business Card Maker
+        </a>
+      </h1>
+    </div>
+
+    <div class="top-bar-left">
+      {{#if title}}
+        {{#if page.posted }}
+          <h2>
+            Blog
+          </h2>
+        {{ else }}
+          <a href="/" class="button radius secondary left btn-start js-guide-btn">
+            Get started
+          </a>
+        {{/if}}
+      {{/if}}
+    </div>
+
+    <div class="top-bar-right show-for-medium">
+      <ul class="menu">
+        <li>
+          <a href="/about.html">About</a>
+        </li>
+        <li>
+          <a href="/faq.html">FAQ</a>
+        </li>
+        <li>
+          <a href="/blog/index.html">
+            Blog
+          </a>
+        </li>
+        <li>
+          <a href="/contact.html">Contact</a>
+        </li>
+        <li>
+          <a href="https://twitter.com/bizcardmakercom" target="_blank" class="btn-nav-icon">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  {{> body }}
+
+  <!-- build:js(app) /scripts/plugins.js -->
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/angular-meditor/dist/meditor.js"></script>
+
+  <script src="/bower_components/html2canvas/dist/html2canvas.js"></script>
+  <script src="/bower_components/jspdf/dist/jspdf.debug.js"></script>
+
+  <script src="/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
+
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.core.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.keyboard.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.box.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.triggers.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.mediaQuery.js"></script>
+
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.dropdown.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.reveal.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js(app) /scripts/app.js -->
+  <script src="/scripts/logger.js"></script>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/modal.js"></script>
+  <script src="/scripts/safari.js"></script>
+  <script src="/scripts/analytics.js"></script>
+  <script src="/scripts/psprint.js"></script>
+  <script src="/scripts/logaster.js"></script>
+  <script src="/scripts/laborday.js"></script>
+  <script src="/scripts/themes.js"></script>
+  <script src="/scripts/pdf.js"></script>
+  <script src="/scripts/app.js"></script>
+  <script src="/scripts/directives/fileread.js"></script>
+  <script src="/scripts/directives/drag.js"></script>
+  <script src="/scripts/controllers/main.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js(app) /scripts/website.js -->
+  <script src="/scripts/sw.js"></script>
+  <script src="/scripts/website.js"></script>
+  <!-- endbuild -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44456311-1', 'www.bizcardmaker.com');
+  ga('set', 'anonymizeIp', true);
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>
+    if (typeof WebFont !== 'undefined') {
+      WebFont.load({
+        google: {
+          families: ['Open Sans:400,700']
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+/* Right sidebar
+ */
+
+.sidebar-right {
+  display: none;
+  float: right;
+  min-height: 100%;
+  width: 22em;
+  padding: 0 1.6em 0 2.8em;
+}
+
+/* show for 1240px and up
+ */
+@media (min-width: 77.5em) {
+  .sidebar-right {
+    display: block;
+  }
+}
+
+/* safari warning
+ */
+
+.warning-safari {
+  display: none;
+}
+
+.warning-safari-show {
+  display: block;
+}

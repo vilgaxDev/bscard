@@ -1,0 +1,731 @@
+/* Card editor app
+ */
+
+/* Imports
+*/
+@import 'themes';
+
+/* Main
+*/
+
+html,
+body {
+  height: 100%;
+  min-height: emCalc(560);
+}
+
+/* flex layout
+ */
+.card-maker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 52px;
+}
+
+.app-view,
+.themes-box,
+.card-editor {
+  float: left;
+  height: 100%;
+}
+
+.themes-box {
+  padding-left: emCalc(8);
+  padding-right: emCalc(8);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: emCalc(120);
+
+  @include breakpoint(mama-bear) {
+    width: emCalc(280);
+  }
+}
+
+.card-editor {
+  margin-left: 20px;
+  padding-bottom: 0;
+  width: emCalc(500);
+
+  font-size: .84em;
+
+  @include breakpoint(mama-bear) {
+    font-size: .92em;
+  }
+
+  @include breakpoint(papa-bear) {
+    width: emCalc(594);
+    font-size: 1em;
+  }
+}
+
+.card-editor > h2 {
+  overflow: hidden;
+}
+
+.button.btn-reset {
+  float: right;
+  margin: 0;
+}
+
+/* Themes
+*/
+.themes-box {
+  padding-bottom: 0;
+  background-color: darken($white, 10%);
+}
+
+.themes-row {
+  white-space: nowrap;
+
+  .theme-item {
+    display: block;
+    position: relative;
+    height: emCalc(60);
+    padding: emCalc(6);
+    margin: 0 0 emCalc(4);
+    border-radius: 3px;
+    background-color: $white;
+
+    .theme-preview-container {
+      overflow: hidden;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 1px;
+
+      @include linear-gradient(50deg, #888, #000);
+    }
+
+    .theme-preview {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      opacity: .7;
+    }
+
+    &.active {
+      background-color: $color2;
+      box-shadow: inset 0 -2px 0 darken($color1, 10%);
+
+      .theme-preview {
+        opacity: .9;
+      }
+    }
+
+    &:hover {
+
+      .theme-preview {
+        opacity: .95;
+      }
+
+    }
+  }
+
+}
+
+/* Editor
+*/
+
+// 3.75 x 2.25 in - full bleed at 96ppi
+.card-container {
+  position: relative;
+  width: emCalc(360);
+  height: emCalc(216);
+  margin-bottom: emCalc(20);
+  border: 1px solid darken($white, 10%);
+  box-shadow: 0 2px 1px darken($white, 5%);
+
+  font-size: 1.34em;
+
+  @include breakpoint(mama-bear) {
+    font-size: 1.4em;
+  }
+
+  @include breakpoint(papa-bear) {
+    font-size: 1.65em;
+  }
+}
+
+// padding 0.25 in for bleed and safe zone (.125 + .125)
+.card-preview {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  // (350/15) - ratio between bleed and width 3.75/0.25
+  // +
+  // (350/15/0.25) - additional 25% because of font-size .75em
+  padding: emCalc(24 + 6);
+
+  font-size: .75em;
+
+  *:not(font) {
+    font-size: 1em;
+  }
+
+}
+
+.card-content {
+  overflow: hidden;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* enlarged card for high-quality generation
+ */
+.card-container.card-big {
+  position: absolute;
+  /* we can't position it offscreen using top, because html2cavas
+   * will come out black.
+   */
+  top: 0;
+  left: 200%;
+  border: 0;
+  pointer-events: none;
+
+  /* the card is 1.65 ~ 592px
+  * we want to make the card 1260px for 350dpi, 2.128x in size:
+  * 2.128em + (2.128 * 0.65)
+  */
+  width: 1260px;
+  height: 756px;
+  font-size: 3.5em;
+
+  .no-picture {
+    display: none;
+  }
+
+  /* Make sure the drag handles are not still visible
+   * when taking the canvas picture,
+   * beacause of transitions
+   */
+  .drag-handle,
+  .resize-handle {
+    opacity: 0;
+
+    @include transition(none);
+    @include transition-delay(0);
+  }
+}
+
+/* Picture upload
+*/
+.file-upload {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.card-container input[type=file] {
+  width: 1px;
+  height:1px;
+}
+
+.card-picture {
+  position: absolute;
+  top: 4%;
+  left: 4%;
+
+  width: 36%;
+  color: $color1;
+
+  vertical-align: top;
+  text-align: center;
+
+  i {
+    font-size: 3em;
+  }
+
+  span {
+    font-size: emCalc(12);
+  }
+
+  i,
+  span {
+    display: none;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    max-height: 100%;
+  }
+
+  label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+
+    * {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background-color: rgba($color1, .1);
+    }
+  }
+
+  .no-picture {
+    padding: emCalc(20);
+    opacity: .8;
+
+    i,
+    span {
+      display: block;
+    }
+
+    img {
+      display: none;
+    }
+
+  }
+
+}
+
+/* Text defaults
+*/
+
+.card-content {
+
+  .card-item,
+  .card-item p {
+    position: relative;
+  }
+
+  .card-item {
+    position: absolute;
+    left: 52%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    vertical-align: top;
+  }
+
+  .card-item,
+  .card-picture {
+    min-width: 10%;
+    min-height: 4%;
+  }
+
+  .card-item:hover {
+    background-color: rgba($color1, .3);
+  }
+
+  .person {
+    top: 4%;
+  }
+
+  .fn {
+    font-size: 1em;
+    font-weight: bold;
+  }
+
+  .org {
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  *,
+  a {
+    cursor: text;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .person,
+  .details,
+  .email,
+  .url {
+    position: absolute;
+
+    width: emCalc(160);
+  }
+
+  .details {
+    top: 36%;
+  }
+
+  .email {
+    top: 70%;
+  }
+
+  .url {
+    top: 80%;
+  }
+
+}
+
+/* Drag
+*/
+
+$color-handle: #555;
+$color-resize: lighten($color-handle, 20%);
+
+.drag-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  opacity: 0;
+
+  box-sizing: content-box;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  margin: -10px;
+  border: 5px dotted $color-handle;
+
+  cursor: move;
+}
+
+.resize-handle {
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -12px;
+  bottom: -12px;
+  z-index: 99;
+  cursor: se-resize;
+
+  border-width: 8px;
+  border-color: transparent $color-resize $color-resize transparent;
+  border-style: solid;
+
+  opacity: 0;
+}
+
+.drag-handle,
+.resize-handle {
+  @include transition(all .1s ease-in-out);
+  @include transition-delay(0.5s);
+}
+
+.dr-handle-show,
+.dr-container:hover,
+.dr-container:focus {
+  .drag-handle,
+  .resize-handle {
+    @include transition-delay(0s);
+  }
+
+  .drag-handle {
+    opacity: .7;
+  }
+
+  .resize-handle {
+    opacity: 1;
+  }
+}
+
+.dr-active {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Download buttons
+*/
+.download-buttons {
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+
+  font-size: 1.65em;
+
+  > li {
+    display: block;
+    overflow: hidden;
+    vertical-align: top;
+
+    font-size: emCalc(12);
+
+    &.order-btn {
+      width: 60%;
+    }
+
+    &:last-child {
+      width: 38%;
+      margin-left: 2%;
+
+      font-size: .7em;
+    }
+
+  }
+
+  .button {
+    display: block;
+    min-height: emCalc(72);
+    margin: 0;
+    border: 0;
+    border-radius: 3px;
+
+    font-size: 1em;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .fa {
+    width: emCalc(20);
+  }
+
+  small {
+    display: block;
+    padding-top: emCalc(4);
+    padding-left: emCalc(44);
+  }
+
+  @include breakpoint(baby-bear) {
+
+    > li {
+      float: left;
+      width: 50%;
+    }
+
+  }
+}
+
+.button.button-download {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  padding: 1em 2em;
+  background-color: $grey;
+  box-shadow: none;
+
+  font-size: emCalc(12);
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2em;
+    display: block;
+    margin-top: -3px;
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: #444 transparent transparent;
+  }
+}
+
+.dropdown-download-files {
+  width: 16.4em;
+  padding: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 4px rgba(0,0,0,.2);
+}
+
+.dropdown-download-files:after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 1.68em;
+  display: block;
+  border-width: 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent #fff;
+}
+
+.button-download-file {
+  display: block;
+  width: 100%;
+  padding: .6em 1em;
+
+  font-size: 1.32em;
+}
+
+.button-download-file:hover {
+  background: #efefef;
+
+  color: $color2;
+}
+
+.order-btn .button {
+  color: #fff;
+  white-space: nowrap;
+}
+
+.order-btn small {
+  white-space: normal;
+}
+
+.price-promo {
+  font-weight: bold;
+}
+
+.partner-text {
+  display: block;
+  margin: emCalc(8) 0 0 emCalc(80);
+
+  color: #479CAB;
+  font-size: emCalc(11);
+
+  a {
+    display: inline-block;
+    width: 100px;
+    height: 33px;
+    margin-left: emCalc(8);
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    text-indent: -100%;
+    vertical-align: middle;
+  }
+}
+
+.download-buttons .f-dropdown {
+  display: block;
+  min-width: emCalc(360);
+  border-radius: 3px;
+  border-color: $color2;
+
+  box-shadow: 0 2px 5px lighten(#000, 60%);
+
+  &:before,
+  &:after {
+    left: auto;
+    right: emCalc(20);
+  }
+
+  &:after {
+    border-bottom-color: $color2;
+    margin-left: 0;
+    margin-right: -1px;
+  }
+
+  li {
+    font-size: emCalc(24);
+  }
+
+  small {
+    color: lighten(#000, 20%);
+  }
+
+  a {
+    padding: emCalc(8) emCalc(24);
+
+    color: #000;
+
+    &:hover {
+      //background-color: lighten($color2, 40%);
+      color: $color2;
+      text-decoration: none;
+    }
+  }
+}
+
+.download-form {
+  input {
+    display: none;
+  }
+}
+
+.download-note {
+  padding: emCalc(5);
+  border-color: darken($white, 10%);
+  background-color: darken($white, 5%);
+
+  font-size: 1em;
+
+  p {
+    margin: 0;
+
+    font-size: emCalc(10);
+    color: #333;
+  }
+
+  code {
+    color: $color1;
+  }
+}
+
+.region-notice {
+  display: block;
+
+  color: darken($white, 60%);
+  font-size: emCalc(12);
+
+  @include breakpoint(baby-bear) {
+    float: right;
+
+    width: 50%;
+    padding: 0 emCalc(40) 0 emCalc(88);
+  }
+}
+
+/* invisible card generation
+*/
+
+.card-invisible {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  pointer-events: none;
+}
+
+/* card loader
+*/
+
+.state-loading {
+  position: relative;
+  pointer-events: none;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgba(#000, .5);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1001;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #fff #fff #fff transparent;
+    border-radius: 100%;
+
+    @include transform(translate3d(-50%, %50, 0));
+    @include animation(rotate 1s infinite linear);
+  }
+
+}
+
+@include keyframes(rotate) {
+  0% {
+    @include transform(rotate(0deg));
+  }
+  100% {
+    @include transform(rotate(360deg));
+  }
+}

@@ -1,0 +1,41 @@
+/* help popup
+ */
+
+.help {
+  padding-top: 1.6em;
+  padding-bottom: 3.4em;
+}
+
+.help-title {
+  margin-bottom: 1.4em;
+  opacity: .4;
+
+  font-size: .8em;
+  font-weight: bold;
+}
+
+.help-list {
+  list-style-type: none;
+  margin: 0 0 0 -1.8em;
+
+  font-size: .9em;
+}
+
+.help-list li {
+  position: relative;
+  margin: 0 0 1.8em;
+  padding-left: 1.8em;
+}
+
+.icon-help {
+  position: absolute;
+  top: emCalc(4);
+  left: 0;
+  opacity: .4;
+
+  font-size: emCalc(20);
+}
+
+.icon-help.fa-long-arrow-down {
+  @include transform(rotate(-45deg));
+}
