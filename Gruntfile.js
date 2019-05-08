@@ -1,5 +1,6 @@
 'use strict';
 
+
 module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -11,7 +12,7 @@ module.exports = function (grunt) {
     dist: 'public',
     tests: 'tests'
   };
-
+  const sass = require('node-sass');
   grunt.initConfig({
     config: config,
     watch: {
@@ -25,7 +26,8 @@ module.exports = function (grunt) {
       },
       sass: {
         files: [ '<%= config.app %>/styles/{,*/}*.{scss,sass}' ],
-        tasks: [ 'sass:server' ]
+        tasks: [ 'sass:server' ],
+        options: { implementation: sass, sourceMap: true },
       },
       livereload: {
         options: {
@@ -118,6 +120,7 @@ module.exports = function (grunt) {
           dest: '<%= config.dist %>'
         }]
       }
+      
     },
     sass: {
       dist: {
